@@ -4,6 +4,9 @@ const rightButton = document.querySelector("#right");
 const topButton = document.querySelector("#top");
 const botButton = document.querySelector("#bottom");
 const car = document.querySelector("#voiture");
+car.style.gridColumnStart =1;
+car.style.gridRowStart = 1;
+
 
 const freePlaces = [
     {x:1, y:1},
@@ -55,10 +58,10 @@ const freePlaces = [
 
 //Attribution d'évènements
 
-leftButton.addEventListener('click', moveLeft);
-rightButton.addEventListener('click', moveRight);
-topButton.addEventListener('click', moveTop);
-botButton.addEventListener('click', moveDown);
+leftButton.addEventListener('click', (event) => moveLeft(event));
+rightButton.addEventListener('click', (event) => moveRight(event));
+topButton.addEventListener('click', (event) => moveTop(event));
+botButton.addEventListener('click', (event) => moveDown(event));
 
 //Fonctions
 
@@ -67,9 +70,17 @@ function moveLeft() {
 }
 
 
-function moveRight() {
-    car.style.gridColumnStart = 1;
-    car.style.gridRowStart = 5;
+function moveRight(event) {
+    console.log((event));
+    let newXPos = Number(car.style.gridColumnStart);
+    newXPos +=1;
+    const curYPos = Number(car.style.gridRowStart);
+    car.style.gridColumnStart = newXPos;
+    car.style.gridRowStart = curYPos;
+
+    if(checkPosition(newXPos, curYPos)) {
+        console.log(newXPos, curYPos);
+    }
 }
 
 function moveTop() {
@@ -78,4 +89,9 @@ function moveTop() {
 
 function moveDown() {
 
+}
+
+
+function checkPosition(xPos, yPos) {
+    return freePlaces.includes(freePlace => freePlace.x == xPos && freePlace.y == yPos);
 }
